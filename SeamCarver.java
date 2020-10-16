@@ -5,7 +5,7 @@ public class SeamCarver {
 
   // create a seam carver object based on the given picture
   public SeamCarver(Picture picture) {
-    pic = picture;
+    pic = new Picture(picture);
   }
 
   // current picture
@@ -15,12 +15,12 @@ public class SeamCarver {
 
   // width of current picture
   public int width() {
-    return 0;
+    return pic.width();
   }
 
   // height of current picture
   public int height() {
-    return 0;
+    return pic.height();
   }
 
   // energy of pixel at column x and row y
