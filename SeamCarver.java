@@ -1,12 +1,20 @@
+import edu.princeton.cs.algs4.EdgeWeightedDigraph;
 import edu.princeton.cs.algs4.Picture;
 import edu.princeton.cs.algs4.StdOut;
 
 public class SeamCarver {
-  private final Picture pic;
+  private Picture pic;
+  private double[][] pixEnergy;
 
   // create a seam carver object based on the given picture
   public SeamCarver(Picture picture) {
     pic = new Picture(picture);
+    pixEnergy = new double[width()][height()];
+    for (int i = 0; i < pixEnergy.length; i++) {
+      for (int j = 0; j < pixEnergy[i].length; j++) {
+        pixEnergy[i][j] = energy(i, j);
+      }
+    }
   }
 
   // current picture
@@ -54,17 +62,17 @@ public class SeamCarver {
 
   // sequence of indices for horizontal seam
   public int[] findHorizontalSeam() {
-    // find the shortest path from left to right
-    //  create a graph of all vertices, connecting from left to right:
-    //    pixel directly right
-    //    pixel topright
-    //    pixel botright
-    
     return new int[0];
   }
 
   // sequence of indices for vertical seam
   public int[] findVerticalSeam() {
+    // find the shortest path from top to bottom
+    //  create a graph of all vertices, connecting from left to right:
+    //    pixel directly below
+    //    pixel botleft
+    //    pixel botright
+    //  find the shortest path from top to bottom
     return new int[0];
   }
 
