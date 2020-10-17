@@ -26,6 +26,9 @@ public class SeamCarver {
 
   // energy of pixel at column x and row y
   public double energy(int x, int y) {
+    if (x == 0 || x == width()  - 1) return 1000;
+    if (y == 0 || y == height() - 1) return 1000;
+    
     int[] left  = getRGB(x - 1, y);
     int[] right = getRGB(x + 1, y);
     int[] above = getRGB(x, y - 1);
@@ -51,6 +54,12 @@ public class SeamCarver {
 
   // sequence of indices for horizontal seam
   public int[] findHorizontalSeam() {
+    // find the shortest path from left to right
+    //  create a graph of all vertices, connecting from left to right:
+    //    pixel directly right
+    //    pixel topright
+    //    pixel botright
+    
     return new int[0];
   }
 
