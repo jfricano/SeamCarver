@@ -1,6 +1,5 @@
-import edu.princeton.cs.algs4.AcyclicSP;
 import edu.princeton.cs.algs4.Picture;
-import edu.princeton.cs.algs4.StdOut;
+// import edu.princeton.cs.algs4.StdOut;
 
 public class SeamCarver {
   private Picture pic;
@@ -138,19 +137,26 @@ public class SeamCarver {
 
   // remove horizontal seam from current picture
   public void removeHorizontalSeam(int[] seam) {
-    // Picture cpy = new Picture(pic.width(), pic.height() - 1);
-    // for (int x = 0; x < pic.width(); x++) {
-    //   for (int y = 0; y < pic.height(); y++) {
-    //     if (seam[x] == y) continue;
-    //     cpy.setRGB(x, y, pic.getRGB(x, y));
-    //   }
-    // }
-    // pic = new Picture(cpy);
+    Picture cpy = new Picture(pic.width(), pic.height() - 1);
+    for (int x = 0; x < pic.width(); x++) {
+      for (int y = 0; y < pic.height(); y++) {
+        if (seam[x] == y) continue;
+        cpy.setRGB(x, y, pic.getRGB(x, y));
+      }
+    }
+    pic = new Picture(cpy);
   }
 
   // remove vertical seam from current picture
   public void removeVerticalSeam(int[] seam) {
-
+    Picture cpy = new Picture(pic.width(), pic.height() - 1);
+    for (int y = 0; y < pic.height(); y++) {
+      for (int x = 0; x < pic.width(); x++) {
+        if (seam[y] == x) continue;
+        cpy.setRGB(x, y, pic.getRGB(x, y));
+      }
+    }
+    pic = new Picture(cpy);
   }
 
   // unit testing (optional)
