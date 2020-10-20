@@ -189,6 +189,14 @@ public class SeamCarver {
 
   // remove horizontal seam from current picture
   public void removeHorizontalSeam(int[] seam) {
+    int[][] rmSeam = new int[width - 1][height];
+    for (int x = 0; x < width - 1; x++) {
+      for (int y = 0; y < height; y++) {
+        rmSeam[x][y] = y >= seam[x] ? pixColors[x + 1][y] : pixColors[x][y]; 
+      }
+    }
+    pixColors = rmSeam;
+
     // for (int x = 0; x < width; x++) {
     //   for (int y = 0; y < height - 1; y++) {
     //     if (y >= seam[x]) pic.setRGB(x, y, pic.getRGB(x, y + 1)); 
@@ -208,6 +216,13 @@ public class SeamCarver {
 
   // remove vertical seam from current picture
   public void removeVerticalSeam(int[] seam) {
+    int[][] rmSeam = new int[width][height - 1];
+    for (int x = 0; x < width; x++) {
+      for (int y = 0; y < height - 1; y++) {
+        rmSeam[x][y] = x >= seam[y] ? pixColors[x][y + 1] : pixColors[x][y];
+      }
+    }
+    pixColors = rmSeam;
     // Picture cpy = new Picture(width - 1, height);
     // for (int y = 0; y < height; y++) {
     //   for (int x = 0; x < width; x++) {
