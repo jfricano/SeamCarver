@@ -1,26 +1,31 @@
 import edu.princeton.cs.algs4.Picture;
-// import edu.princeton.cs.algs4.StdOut;
-// import edu.princeton.cs.algs4.StdOut;
-import edu.princeton.cs.algs4.StdOut;
 
 public class SeamCarver {
   private int[][] pixColors;
   private int width, height;
 
-  // create a seam carver object based on the given picture
+  /**
+   * Creates a SeamCarver object based on given picture
+   * 
+   * @param picture picture to be carved
+   */
   public SeamCarver(Picture picture) {
-    // pic = new Picture(picture);
+    if (picture == null) 
+      throw new IllegalArgumentException("constructor called with null arg");
+
     width = picture.width();
     height = picture.height();
-    // pixEnergy = new double[width][height];
-
     pixColors = new int[width][height];
     for (int x = 0; x < width; x++)
       for (int y = 0; y < height; y++) 
         pixColors[x][y] = picture.getRGB(x, y);
   }
 
-  // current picture
+  /**
+   * current picture
+   * 
+   * @return current picture
+   */
   public Picture picture() {
     Picture pic = new Picture(width, height);
     for (int x = 0; x < width; x++) 
@@ -43,6 +48,9 @@ public class SeamCarver {
   // TO DO REFACTOR TO ELIMINATE NEED FOR PIXENERGY FIELD
   // energy of pixel at column x and row y
   public double energy(int x, int y) {
+    if (x < 0 || x >= width || y < 0 || y >= height) 
+      throw new IllegalArgumentException("energy() argument out of range");
+
     if (x == 0 || x == width - 1)  return 1000;
     if (y == 0 || y == height - 1) return 1000;
 
@@ -62,6 +70,9 @@ public class SeamCarver {
 
   // returns RGB values of passed (x,y) pixel as an array of doubles
   private int[] getRGB(int x, int y) {
+    if (x < 0 || x >= width || y < 0 || y >= height) 
+      throw new IllegalArgumentException("energy() argument out of range");
+
     int rgb = pixColors[x][y];
     int r = (rgb >> 16) & 0xFF;
     int g = (rgb >> 8) & 0xFF;
@@ -179,22 +190,46 @@ public class SeamCarver {
 
   // remove horizontal seam from current picture
   public void removeHorizontalSeam(int[] seam) {
-    height--;
-    int[][] rmSeam = new int[width][height];
+    if (height <= 1)
+      throw new IllegalArgumentException("width of picture <= 1");
+    if (seam == null) 
+      throw new IllegalArgumentException("method called with null arg");
+    if (seam.length != width)
+      throw new IllegalArgumentException("length of arg does not match width of picture");
+    for (int i = 0; i < seam.length - 1; i++) 
+      if (Math.abs(seam[i] - seam[i + 1]) > 1)
+        throw new IllegalArgumentException("dist betw successive seam elements greater than 1");
+
+    int[][] rmSeam = new int[width][--height];
     for (int x = 0; x < width; x++) 
-      for (int y = 0; y < height; y++)
+      for (int y = 0; y < height; y++) {
+        if (seam[x] < 0 || seam[x] > height)
+          throw new IllegalArgumentException("invalid seam element");
         rmSeam[x][y] = y >= seam[x] ? pixColors[x][y + 1] : pixColors[x][y];
+      }
 
     pixColors = rmSeam;
   }
 
   // remove vertical seam from current picture
   public void removeVerticalSeam(int[] seam) {
-    width--;
-    int[][] rmSeam = new int[width][height];
+    if (width <= 1)
+      throw new IllegalArgumentException("width of picture <= 1");
+    if (seam == null) 
+      throw new IllegalArgumentException("method called with null arg");
+    if (seam.length != height)
+      throw new IllegalArgumentException("length of arg does not match width of picture");
+    for (int i = 0; i < seam.length - 1; i++) 
+      if (Math.abs(seam[i] - seam[i + 1]) > 1)
+        throw new IllegalArgumentException("dist betw successive seam elements greater than 1");
+    
+    int[][] rmSeam = new int[--width][height];
     for (int y = 0; y < height; y++)
-      for (int x = 0; x < width; x++)
+      for (int x = 0; x < width; x++) {
+        if (seam[y] < 0 || seam[y] > width) 
+          throw new IllegalArgumentException("seam element out of range");
         rmSeam[x][y] = x >= seam[y] ? pixColors[x + 1][y] : pixColors[x][y];
+      }
 
     pixColors = rmSeam;
   }
